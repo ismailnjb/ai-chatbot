@@ -1,58 +1,55 @@
 package com.ai.chatbot.helper;
 
 import com.ai.chatbot.interfaces.AIClient;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@Component
 public class OllamaClient implements AIClient {
 
-    private static final String OLLAMA_URL = "http://192.168.1.2:11434/api/generate";
+    private static final String URL = "http://192.168.1.2:11434/api/generate";
     private static final String MODEL = "llama2";
 
-    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final HttpClient client = HttpClient.newHttpClient();
 
     @Override
     public String getResponse(String prompt) throws Exception {
 
-        String requestBody = """
+        String body = """
                 {
                   "model": "%s",
                   "prompt": "%s",
                   "stream": false
                 }
-                """.formatted(MODEL, escapeJson(prompt));
+                """.formatted(MODEL, escape(prompt));
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(OLLAMA_URL))
+                .uri(URI.create(URL))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
         HttpResponse<String> response =
-                httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        return extractResponse(response.body());
+        return extract(response.body());
     }
 
-    private String extractResponse(String json) {
+    private String extract(String json) {
         int start = json.indexOf("\"response\":\"");
-        if (start == -1) return "";
-
         start += 12;
         int end = json.indexOf("\"", start);
-        if (end == -1) return "";
-
         return json.substring(start, end)
                 .replace("\\n", "\n")
                 .replace("\\\"", "\"");
     }
 
-    private String escapeJson(String text) {
-        return text
-                .replace("\\", "\\\\")
+    private String escape(String s) {
+        return s.replace("\\", "\\\\")
                 .replace("\"", "\\\"")
                 .replace("\n", "\\n");
     }
