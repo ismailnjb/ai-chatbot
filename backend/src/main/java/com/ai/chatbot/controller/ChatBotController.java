@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ChatBotController {
 
     private final AIClient aiClient;
@@ -20,5 +20,8 @@ public class ChatBotController {
         String prompt = body.get("prompt");
         String response = aiClient.getResponse(prompt);
         return Map.of("response", response);
+    }
+    @RequestMapping(value = "/chat", method = RequestMethod.OPTIONS)
+    public void options() {
     }
 }
