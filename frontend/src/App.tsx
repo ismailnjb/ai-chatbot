@@ -1,5 +1,5 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
 type Message = {
   role: "user" | "ai";
@@ -50,7 +50,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col">
-     <header className="sticky top-0 z-10 p-4 border-b border-slate-700 bg-slate-900 text-center text-xl font-semibold">
+      <header className="sticky top-0 z-10 p-4 border-b border-slate-700 bg-slate-900 text-center text-xl font-semibold">
         AI Chatbot
       </header>
 
@@ -74,7 +74,7 @@ export default function App() {
         )}
       </main>
 
-     <footer className="sticky bottom-0 z-10 p-4 border-t border-slate-700 bg-slate-900 flex gap-2">
+      <footer className="sticky bottom-0 z-10 p-4 border-t border-slate-700 bg-slate-900 flex gap-2">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
