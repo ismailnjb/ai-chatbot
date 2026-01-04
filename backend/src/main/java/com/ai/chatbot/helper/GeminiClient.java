@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 
 public class GeminiClient implements AIClient {
 
-    private static final String API_KEY = "AIzaSyBXiv-4EuNqoBK9joTtUv3_fR5dQpa3PcA";
+    private static final String API_KEY = "AIzaSyBXiv-4EuNqoBK9joTtUv3_fR5dQpa3PcA003";
     private static final String ENDPOINT =
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
